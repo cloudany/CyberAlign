@@ -14,16 +14,28 @@ export const metadata: Metadata = {
   description: "Automate compliance with AI. Analyze ISO 27001 & NIST policies in minutes.",
 };
 
+import { ThemeProvider } from "@/components/theme-provider";
+import { LanguageProvider } from "@/context/language-context";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <SmoothScroll>{children}</SmoothScroll>
-        <Toaster position="top-right" richColors />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <LanguageProvider>
+            <SmoothScroll>{children}</SmoothScroll>
+            <Toaster position="top-right" richColors />
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -106,7 +106,7 @@ export default function BillingSettingsPage() {
     return (
         <div className="space-y-6">
             {/* Current Plan Card (Hero) */}
-            <Card className="shadow-sm hover:shadow-md transition-shadow bg-gradient-to-r from-blue-50 to-violet-50 border-blue-200">
+            <Card className="shadow-sm hover:shadow-md transition-shadow bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/20 dark:to-violet-900/20 border-blue-200 dark:border-blue-800">
                 <CardHeader>
                     <div className="flex items-start justify-between">
                         <div className="space-y-1">
@@ -115,10 +115,10 @@ export default function BillingSettingsPage() {
                                 <CardTitle className="text-2xl">Pro Plan</CardTitle>
                             </div>
                             <div className="flex items-baseline gap-2">
-                                <span className="text-3xl font-bold text-slate-900">$49</span>
-                                <span className="text-slate-600">/month</span>
+                                <span className="text-3xl font-bold text-slate-900 dark:text-slate-50">$49</span>
+                                <span className="text-slate-600 dark:text-slate-400">/month</span>
                             </div>
-                            <div className="flex items-center gap-2 text-sm text-slate-600 mt-2">
+                            <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 mt-2">
                                 <Calendar className="h-4 w-4" />
                                 <span>Your plan renews on November 24, 2025</span>
                             </div>
@@ -155,8 +155,8 @@ export default function BillingSettingsPage() {
                     {/* Documents Analysis */}
                     <div className="space-y-2">
                         <div className="flex items-center justify-between text-sm">
-                            <span className="font-medium text-slate-700">Documents Analyzed</span>
-                            <span className="text-slate-600">
+                            <span className="font-medium text-slate-700 dark:text-slate-300">Documents Analyzed</span>
+                            <span className="text-slate-600 dark:text-slate-400">
                                 {documentsUsage.current}/{documentsUsage.limit}
                             </span>
                         </div>
@@ -179,8 +179,8 @@ export default function BillingSettingsPage() {
                     {/* AI Policy Generations */}
                     <div className="space-y-2">
                         <div className="flex items-center justify-between text-sm">
-                            <span className="font-medium text-slate-700">AI Fixes Generated</span>
-                            <span className="text-slate-600">
+                            <span className="font-medium text-slate-700 dark:text-slate-300">AI Fixes Generated</span>
+                            <span className="text-slate-600 dark:text-slate-400">
                                 {aiFixesUsage.current}/{aiFixesUsage.limit}
                             </span>
                         </div>
@@ -193,7 +193,7 @@ export default function BillingSettingsPage() {
                     </div>
 
                     <div className="pt-4">
-                        <p className="text-sm text-slate-600">
+                        <p className="text-sm text-slate-600 dark:text-slate-400">
                             Need more? <button onClick={handleUpgradePlan} className="text-blue-600 hover:underline font-medium">Upgrade your plan</button> for unlimited access.
                         </p>
                     </div>
@@ -211,12 +211,12 @@ export default function BillingSettingsPage() {
                 <CardContent>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            <div className="p-3 bg-slate-100 rounded-lg">
-                                <CreditCard className="h-6 w-6 text-slate-600" />
+                            <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-lg">
+                                <CreditCard className="h-6 w-6 text-slate-600 dark:text-slate-400" />
                             </div>
                             <div>
-                                <p className="font-semibold text-slate-900">•••• •••• •••• 4242</p>
-                                <p className="text-sm text-slate-500">Expires 04/2026</p>
+                                <p className="font-semibold text-slate-900 dark:text-slate-100">•••• •••• •••• 4242</p>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">Expires 04/2026</p>
                             </div>
                         </div>
                         <Button variant="outline" onClick={handleUpdateCard}>
@@ -252,7 +252,7 @@ export default function BillingSettingsPage() {
                                     <TableCell>
                                         <Badge
                                             variant="outline"
-                                            className="border-green-200 text-green-700 bg-green-50"
+                                            className="border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 bg-green-50 dark:bg-green-900/20"
                                         >
                                             <CheckCircle className="h-3 w-3 mr-1" />
                                             {invoice.status}
@@ -277,14 +277,14 @@ export default function BillingSettingsPage() {
             </Card>
 
             {/* Additional Info */}
-            <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-900">
                 <div className="flex items-start gap-3">
-                    <div className="p-2 bg-blue-100 rounded-lg">
-                        <Zap className="h-5 w-5 text-blue-600" />
+                    <div className="p-2 bg-blue-100 dark:bg-blue-800 rounded-lg">
+                        <Zap className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                     </div>
                     <div className="flex-1">
-                        <h4 className="font-semibold text-blue-900">Need help with billing?</h4>
-                        <p className="text-sm text-blue-700 mt-1">
+                        <h4 className="font-semibold text-blue-900 dark:text-blue-100">Need help with billing?</h4>
+                        <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
                             Contact our support team at <a href="mailto:billing@cyberalign.com" className="underline font-medium">billing@cyberalign.com</a> or visit our help center.
                         </p>
                     </div>

@@ -402,7 +402,7 @@ export default function AnalysisResultPage() {
         if (!selectedNode || selectedNode.depth === 0) {
             return (
                 <div className="text-center">
-                    <p className="text-2xl font-bold text-slate-900">ISO 27001</p>
+                    <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">ISO 27001</p>
                 </div>
             );
         }
@@ -415,7 +415,7 @@ export default function AnalysisResultPage() {
             if (themeData) {
                 return (
                     <div className="text-center space-y-1">
-                        <p className="text-sm font-bold text-slate-900">{themeName}</p>
+                        <p className="text-sm font-bold text-slate-900 dark:text-slate-100">{themeName}</p>
                         <div className="flex flex-col gap-0.5 mt-1">
                             <div className="flex items-center justify-center gap-1">
                                 <div className="w-2 h-2 rounded-full bg-green-500"></div>
@@ -423,11 +423,11 @@ export default function AnalysisResultPage() {
                             </div>
                             <div className="flex items-center justify-center gap-1">
                                 <div className="w-2 h-2 rounded-full bg-amber-500"></div>
-                                <p className="text-[10px] text-slate-600">{themeData.partial} Partial</p>
+                                <p className="text-[10px] text-slate-600">{themeData.partial} Partial Compliant</p>
                             </div>
                             <div className="flex items-center justify-center gap-1">
                                 <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                                <p className="text-[10px] text-slate-600">{themeData.nonCompliant} Missing</p>
+                                <p className="text-[10px] text-slate-600">{themeData.nonCompliant} Non-Compliant</p>
                             </div>
                         </div>
                     </div>
@@ -440,14 +440,42 @@ export default function AnalysisResultPage() {
             const statusColor = selectedNode.data.status === "Compliant" ? "bg-green-500" :
                 selectedNode.data.status === "Partial" ? "bg-amber-500" : "bg-red-500";
 
+            // Function to wrap text at 29 characters
+            const wrapText = (text: string, maxChars: number = 29) => {
+                if (text.length <= maxChars) return [text];
+
+                const words = text.split(' ');
+                const lines: string[] = [];
+                let currentLine = '';
+
+                words.forEach(word => {
+                    const testLine = currentLine ? `${currentLine} ${word}` : word;
+                    if (testLine.length <= maxChars) {
+                        currentLine = testLine;
+                    } else {
+                        if (currentLine) lines.push(currentLine);
+                        currentLine = word;
+                    }
+                });
+
+                if (currentLine) lines.push(currentLine);
+                return lines;
+            };
+
+            const textLines = wrapText(selectedNode.data.name);
+
             return (
-                <div className="text-center flex flex-col items-center justify-center h-full px-1">
-                    <p className="text-lg font-bold text-slate-900 mb-1">{selectedNode.data.id}</p>
+                <div className="text-center flex flex-col items-center justify-center h-full px-2">
+                    <p className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-1">{selectedNode.data.id}</p>
                     <div className="flex items-start justify-center gap-1.5 w-full">
                         <div className={`w-2 h-2 rounded-sm mt-1 flex-shrink-0 ${statusColor}`} />
-                        <p className="text-[10px] font-medium text-slate-600 leading-tight line-clamp-3 text-left">
-                            {selectedNode.data.name}
-                        </p>
+                        <div className="text-center">
+                            {textLines.map((line, index) => (
+                                <p key={index} className="text-[10px] font-medium text-slate-600 dark:text-slate-400 leading-tight">
+                                    {line}
+                                </p>
+                            ))}
+                        </div>
                     </div>
                 </div>
             );
@@ -455,13 +483,13 @@ export default function AnalysisResultPage() {
 
         return (
             <div className="text-center">
-                <p className="text-2xl font-bold text-slate-900">ISO 27001</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">ISO 27001</p>
             </div>
         );
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30 p-8">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-background dark:to-background p-8">
             <div className="max-w-7xl mx-auto space-y-8">
                 {/* Header */}
                 <motion.div
@@ -480,7 +508,7 @@ export default function AnalysisResultPage() {
                             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
                                 ISO 27001 Analysis Report
                             </h1>
-                            <p className="text-slate-500 mt-1">C-Level Audit Cockpit</p>
+                            <p className="text-slate-500 dark:text-slate-400 mt-1">C-Level Audit Cockpit</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -544,7 +572,7 @@ export default function AnalysisResultPage() {
                                         </div>
                                         <div>
                                             <p className="text-xs text-slate-500">Document</p>
-                                            <p className="font-semibold text-slate-900">Access_Control_Policy_v2.pdf</p>
+                                            <p className="font-semibold text-slate-900 dark:text-slate-200">Access_Control_Policy_v2.pdf</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">
@@ -553,7 +581,7 @@ export default function AnalysisResultPage() {
                                         </div>
                                         <div>
                                             <p className="text-xs text-slate-500">Scan Date</p>
-                                            <p className="font-medium text-slate-700">Oct 24, 2025, 10:30 AM</p>
+                                            <p className="font-medium text-slate-700 dark:text-slate-300">Oct 24, 2025, 10:30 AM</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">
@@ -562,7 +590,7 @@ export default function AnalysisResultPage() {
                                         </div>
                                         <div>
                                             <p className="text-xs text-slate-500">Duration</p>
-                                            <p className="font-medium text-slate-700">2.1s</p>
+                                            <p className="font-medium text-slate-700 dark:text-slate-300">2.1s</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">
@@ -571,7 +599,7 @@ export default function AnalysisResultPage() {
                                         </div>
                                         <div>
                                             <p className="text-xs text-slate-500">File Size</p>
-                                            <p className="font-medium text-slate-700">1.2 MB</p>
+                                            <p className="font-medium text-slate-700 dark:text-slate-300">1.2 MB</p>
                                         </div>
                                     </div>
                                 </div>
@@ -630,7 +658,7 @@ export default function AnalysisResultPage() {
                                             />
                                         </svg>
                                         <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                            <span className="text-4xl font-bold text-slate-800">{overallScore}%</span>
+                                            <span className="text-4xl font-bold text-slate-800 dark:text-slate-100">{overallScore}%</span>
                                             <span className="text-xs text-slate-500 uppercase tracking-wider">Overall Score</span>
                                         </div>
                                     </motion.div>
@@ -649,10 +677,10 @@ export default function AnalysisResultPage() {
                                             onClick={() => console.log('scrollToSection', theme.name.toLowerCase())}
                                         >
                                             <div className="flex justify-between text-sm mb-2">
-                                                <span className="font-medium text-slate-700">{theme.name}</span>
+                                                <span className="font-medium text-slate-700 dark:text-slate-300">{theme.name}</span>
                                                 <span className="text-slate-500">{theme.points}/{theme.total}</span>
                                             </div>
-                                            <div className="h-3 bg-slate-100 rounded-full overflow-hidden group-hover:[&:not(:hover)]:opacity-40 hover:opacity-100 transition-opacity">
+                                            <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden group-hover:[&:not(:hover)]:opacity-40 hover:opacity-100 transition-opacity">
                                                 <motion.div
                                                     initial={{ width: 0 }}
                                                     animate={{ width: `${theme.percentage}%` }}
@@ -684,16 +712,37 @@ export default function AnalysisResultPage() {
                                 <CardDescription>Interactive control distribution</CardDescription>
                             </CardHeader>
                             <CardContent>
+                                <style dangerouslySetInnerHTML={{
+                                    __html: `
+                                    svg[role="img"] path {
+                                        transition: filter 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+                                        cursor: pointer !important;
+                                        will-change: transform, filter;
+                                        transform-origin: center center !important;
+                                        transform-box: fill-box !important;
+                                    }
+                                    svg[role="img"] path:hover {
+                                        filter: brightness(1.25) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3)) !important;
+                                        transform: scale(1.1) !important;
+                                        z-index: 100 !important;
+                                        position: relative !important;
+                                    }
+                                    /* Extra emphasis for small outer segments */
+                                    svg[role="img"] g:last-child path:hover {
+                                        transform: scale(1.15) !important;
+                                        filter: brightness(1.3) drop-shadow(0 3px 10px rgba(0, 0, 0, 0.4)) !important;
+                                    }
+                                `}} />
                                 <div className="relative h-[420px]">
                                     <ResponsiveSunburst
                                         data={sunburstData}
                                         margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
                                         id="name"
                                         value="value"
-                                        innerRadius={0.15} // Thicker rings, smaller center hole
+                                        innerRadius={0.15}
                                         cornerRadius={2}
                                         borderWidth={2}
-                                        borderColor="white"
+                                        borderColor="rgba(255,255,255,0.15)"
                                         colors={(node) => {
                                             // STRICT COLOR MAPPING
                                             if (node.depth === 1) {
@@ -710,26 +759,45 @@ export default function AnalysisResultPage() {
                                             }
                                             return "white"; // Root
                                         }}
-                                        inheritColorFromParent={false} // CRITICAL: Disable inheritance
+                                        inheritColorFromParent={false}
                                         enableArcLabels={false}
                                         onClick={(node) => setSelectedNode(node)}
+                                        onMouseEnter={(node) => {
+                                            // Additional hover effect
+                                            console.log('Hovering:', node.data.name);
+                                        }}
                                         animate={true}
                                         motionConfig="gentle"
+                                        // Simple hover effects - no flickering
+                                        arcOpacity={0.9}
+                                        arcHoverOpacity={1}
+                                        arcHoverOthersOpacity={0.4}
+                                        transitionMode="startAngle"
                                         tooltip={({ id, value, color, data }) => (
-                                            <div className="bg-white px-3 py-2 rounded-lg shadow-lg border border-slate-200">
+                                            <div className="bg-white dark:bg-slate-900 px-3 py-2 rounded-lg shadow-lg border border-slate-200 dark:border-slate-800">
                                                 <div className="flex items-center gap-2">
                                                     <div className="w-3 h-3 rounded" style={{ backgroundColor: color }} />
                                                     <div>
-                                                        <p className="text-xs font-semibold text-slate-900">
+                                                        <p className="text-xs font-semibold text-slate-900 dark:text-slate-100">
                                                             {data.id || data.name}
                                                         </p>
                                                         {data.status && (
-                                                            <p className="text-[10px] text-slate-600">{data.status}</p>
+                                                            <p className="text-[10px] text-slate-600 dark:text-slate-400">{data.status}</p>
                                                         )}
                                                     </div>
                                                 </div>
                                             </div>
                                         )}
+                                        theme={{
+                                            tooltip: {
+                                                container: {
+                                                    background: 'transparent',
+                                                    padding: 0,
+                                                    border: 'none',
+                                                    boxShadow: 'none',
+                                                }
+                                            }
+                                        }}
                                     />
 
                                     {/* Center Text - Clean Floating Style */}
@@ -743,22 +811,22 @@ export default function AnalysisResultPage() {
                                     {/* Compliant */}
                                     <div className="flex items-center gap-2">
                                         <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                                        <span className="text-sm font-medium text-slate-600 whitespace-nowrap">Compliant</span>
-                                        <span className="text-xl font-bold text-slate-900 ml-1">{totalCompliant}</span>
+                                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap">Compliant</span>
+                                        <span className="text-xl font-bold text-slate-900 dark:text-slate-100 ml-1">{totalCompliant}</span>
                                     </div>
 
                                     {/* Partial */}
                                     <div className="flex items-center gap-2">
                                         <div className="w-3 h-3 rounded-full bg-amber-500" />
-                                        <span className="text-sm font-medium text-slate-600 whitespace-nowrap">Partial</span>
-                                        <span className="text-xl font-bold text-slate-900 ml-1">{totalPartial}</span>
+                                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap">Partial Compliant</span>
+                                        <span className="text-xl font-bold text-slate-900 dark:text-slate-100 ml-1">{totalPartial}</span>
                                     </div>
 
                                     {/* Non-Compliant */}
                                     <div className="flex items-center gap-2">
                                         <div className="w-3 h-3 rounded-full bg-red-500" />
-                                        <span className="text-sm font-medium text-slate-600 whitespace-nowrap">Non-Compliant</span>
-                                        <span className="text-xl font-bold text-slate-900 ml-1">{totalNonCompliant}</span>
+                                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400 whitespace-nowrap">Non-Compliant</span>
+                                        <span className="text-xl font-bold text-slate-900 dark:text-slate-100 ml-1">{totalNonCompliant}</span>
                                     </div>
                                 </div>
                             </CardContent>
@@ -896,6 +964,86 @@ export default function AnalysisResultPage() {
                         </Card>
                     </motion.div>
                 </div>
+
+                {/* Risk Level Insight (NEW) - From Dashboard */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.45 }}
+                >
+                    <Card className="shadow-lg border-0">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <AlertTriangle className="h-5 w-5 text-purple-600" />
+                                Risk Level Insight (from 93 Annex Controls)
+                            </CardTitle>
+                            <CardDescription>Distribution of risk levels across all 93 Annex A controls.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                                {/* Block 1: Critical */}
+                                <motion.div
+                                    className="bg-red-50 border-2 border-red-200 rounded-xl p-6 hover:shadow-lg transition-all hover:-translate-y-1 dark:bg-red-950/30 dark:border-red-900"
+                                    whileHover={{ scale: 1.02 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="p-3 bg-red-100 rounded-lg dark:bg-red-900/50">
+                                            <AlertTriangle className="h-8 w-8 text-red-600 dark:text-red-400" />
+                                        </div>
+                                        <span className="text-5xl font-bold text-red-600 dark:text-red-400">12</span>
+                                    </div>
+                                    <p className="text-sm font-semibold text-red-700 dark:text-red-300">Critical Risk</p>
+                                </motion.div>
+
+                                {/* Block 2: High */}
+                                <motion.div
+                                    className="bg-orange-50 border-2 border-orange-200 rounded-xl p-6 hover:shadow-lg transition-all hover:-translate-y-1 dark:bg-orange-950/30 dark:border-orange-900"
+                                    whileHover={{ scale: 1.02 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="p-3 bg-orange-100 rounded-lg dark:bg-orange-900/50">
+                                            <AlertCircle className="h-8 w-8 text-orange-600 dark:text-orange-400" />
+                                        </div>
+                                        <span className="text-5xl font-bold text-orange-600 dark:text-orange-400">25</span>
+                                    </div>
+                                    <p className="text-sm font-semibold text-orange-700 dark:text-orange-300">High Risk</p>
+                                </motion.div>
+
+                                {/* Block 3: Medium */}
+                                <motion.div
+                                    className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-6 hover:shadow-lg transition-all hover:-translate-y-1 dark:bg-yellow-950/30 dark:border-yellow-900"
+                                    whileHover={{ scale: 1.02 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="p-3 bg-yellow-100 rounded-lg dark:bg-yellow-900/50">
+                                            <Info className="h-8 w-8 text-yellow-600 dark:text-yellow-400" />
+                                        </div>
+                                        <span className="text-5xl font-bold text-yellow-600 dark:text-yellow-400">30</span>
+                                    </div>
+                                    <p className="text-sm font-semibold text-yellow-700 dark:text-yellow-300">Medium Risk</p>
+                                </motion.div>
+
+                                {/* Block 4: Low */}
+                                <motion.div
+                                    className="bg-green-50 border-2 border-green-200 rounded-xl p-6 hover:shadow-lg transition-all hover:-translate-y-1 dark:bg-green-950/30 dark:border-green-900"
+                                    whileHover={{ scale: 1.02 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="p-3 bg-green-100 rounded-lg dark:bg-green-900/50">
+                                            <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
+                                        </div>
+                                        <span className="text-5xl font-bold text-green-600 dark:text-green-400">26</span>
+                                    </div>
+                                    <p className="text-sm font-semibold text-green-700 dark:text-green-300">Low Risk</p>
+                                </motion.div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </motion.div>
 
                 {/* QA Cards Row */}
                 <div className="grid grid-cols-2 gap-6">
@@ -1088,10 +1236,10 @@ export default function AnalysisResultPage() {
                                         </AccordionTrigger>
                                         <AccordionContent className="space-y-4 pt-4">
                                             {/* Evidence Block - Quote Style */}
-                                            <div className="bg-slate-50 border-l-4 border-slate-300 p-4 rounded-r-lg relative">
+                                            <div className="bg-slate-50 dark:bg-slate-900/50 border-l-4 border-slate-300 dark:border-slate-600 p-4 rounded-r-lg relative">
                                                 <Quote className="h-4 w-4 text-slate-400 absolute top-4 left-4" />
                                                 <div className="pl-6">
-                                                    <h4 className="text-sm font-semibold text-slate-900 mb-2">Evidence</h4>
+                                                    <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2">Evidence</h4>
                                                     <p className="text-sm text-slate-700 font-mono italic leading-relaxed">
                                                         "{gap.evidence}"
                                                     </p>
@@ -1099,8 +1247,8 @@ export default function AnalysisResultPage() {
                                             </div>
 
                                             {/* Gap Analysis Block */}
-                                            <div className="p-4 bg-white rounded-lg">
-                                                <h4 className="text-sm font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                            <div className="p-4 bg-white dark:bg-slate-900/50 rounded-lg">
+                                                <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2 flex items-center gap-2">
                                                     <Search className="h-4 w-4 text-slate-600" />
                                                     Gap Analysis
                                                 </h4>
@@ -1108,12 +1256,12 @@ export default function AnalysisResultPage() {
                                             </div>
 
                                             {/* Recommendation Block - Action Box */}
-                                            <div className="bg-blue-50/50 border border-blue-100 rounded-lg p-4">
-                                                <h4 className="text-sm font-semibold text-slate-900 mb-2 flex items-center gap-2">
+                                            <div className="bg-blue-50/50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900 rounded-lg p-4">
+                                                <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2 flex items-center gap-2">
                                                     <Lightbulb className="h-4 w-4 text-blue-600" />
                                                     Recommendation
                                                 </h4>
-                                                <p className="text-sm text-slate-800 leading-relaxed">{gap.recommendation}</p>
+                                                <p className="text-sm text-slate-800 dark:text-slate-300 leading-relaxed">{gap.recommendation}</p>
                                             </div>
                                         </AccordionContent>
                                     </AccordionItem>

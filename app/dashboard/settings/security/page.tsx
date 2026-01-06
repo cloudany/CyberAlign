@@ -219,8 +219,8 @@ export default function SecuritySettingsPage() {
                                                 <div className="flex items-center justify-between text-xs">
                                                     <span className="text-slate-500">Password Strength</span>
                                                     <span className={`font-medium ${strengthInfo.label === "Weak" ? "text-red-600" :
-                                                            strengthInfo.label === "Medium" ? "text-yellow-600" :
-                                                                "text-green-600"
+                                                        strengthInfo.label === "Medium" ? "text-yellow-600" :
+                                                            "text-green-600"
                                                         }`}>
                                                         {strengthInfo.label}
                                                     </span>
@@ -270,11 +270,11 @@ export default function SecuritySettingsPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <div className="flex items-start gap-4 p-4 bg-slate-50 rounded-lg">
+                    <div className="flex items-start gap-4 p-4 bg-slate-50 dark:bg-slate-900 rounded-lg">
                         <Shield className="h-5 w-5 text-purple-600 mt-0.5" />
                         <div className="flex-1">
-                            <h4 className="font-semibold text-slate-900">Secure your account</h4>
-                            <p className="text-sm text-slate-600 mt-1">
+                            <h4 className="font-semibold text-slate-900 dark:text-slate-100">Secure your account</h4>
+                            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
                                 Two-factor authentication adds an additional layer of security by requiring
                                 more than just a password to sign in.
                             </p>
@@ -283,7 +283,7 @@ export default function SecuritySettingsPage() {
 
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-medium text-slate-700">Status</p>
+                            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Status</p>
                             <Badge
                                 variant={is2FAEnabled ? "default" : "secondary"}
                                 className={is2FAEnabled ? "bg-green-100 text-green-700 hover:bg-green-100" : "bg-yellow-100 text-yellow-700 hover:bg-yellow-100"}
@@ -335,18 +335,18 @@ export default function SecuritySettingsPage() {
                                 <div
                                     key={session.id}
                                     className={`flex items-start gap-4 p-4 rounded-lg border ${session.isCurrent
-                                            ? "bg-blue-50 border-blue-200"
-                                            : "bg-slate-50 border-slate-200"
+                                        ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800"
+                                        : "bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800"
                                         }`}
                                 >
-                                    <div className={`p-2 rounded-lg ${session.isCurrent ? "bg-blue-100" : "bg-slate-100"
+                                    <div className={`p-2 rounded-lg ${session.isCurrent ? "bg-blue-100 dark:bg-blue-800" : "bg-slate-100 dark:bg-slate-800"
                                         }`}>
-                                        <Icon className={`h-5 w-5 ${session.isCurrent ? "text-blue-600" : "text-slate-600"
+                                        <Icon className={`h-5 w-5 ${session.isCurrent ? "text-blue-600 dark:text-blue-400" : "text-slate-600 dark:text-slate-400"
                                             }`} />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="font-medium text-slate-900">{session.device}</p>
-                                        <p className="text-sm text-slate-600">
+                                        <p className="font-medium text-slate-900 dark:text-slate-100">{session.device}</p>
+                                        <p className="text-sm text-slate-600 dark:text-slate-400">
                                             {session.location} • {session.status}
                                         </p>
                                     </div>
@@ -384,9 +384,9 @@ export default function SecuritySettingsPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <div className="p-4 bg-red-50 rounded-lg border border-red-200">
-                        <h4 className="font-semibold text-red-900 mb-1">Delete Account</h4>
-                        <p className="text-sm text-red-700 mb-4">
+                    <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-900">
+                        <h4 className="font-semibold text-red-900 dark:text-red-100 mb-1">Delete Account</h4>
+                        <p className="text-sm text-red-700 dark:text-red-300 mb-4">
                             Once you delete your account, there is no going back. Please be certain.
                         </p>
                         <Button

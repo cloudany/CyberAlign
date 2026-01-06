@@ -115,9 +115,9 @@ export default function UploadPage() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-slate-50 dark:bg-background">
             {/* Sidebar */}
-            <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-slate-200 p-6">
+            <aside className="fixed left-0 top-0 h-screen w-64 bg-white dark:bg-card border-r border-slate-200 dark:border-border p-6">
                 <div className="mb-8">
                     <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
                         CyberAlign
@@ -126,11 +126,11 @@ export default function UploadPage() {
                 <nav className="space-y-2">
                     <Link
                         href="/dashboard"
-                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-slate-50 transition"
+                        className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition"
                     >
                         Dashboard
                     </Link>
-                    <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-50 text-blue-600 font-medium">
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-medium">
                         <Upload className="w-5 h-5" />
                         Upload Policy
                     </div>
@@ -139,10 +139,10 @@ export default function UploadPage() {
 
             {/* Main Content */}
             <div className="ml-64">
-                <header className="bg-white border-b border-slate-200 px-8 py-4">
+                <header className="bg-white dark:bg-card border-b border-slate-200 dark:border-border px-8 py-4">
                     <Link
                         href="/dashboard"
-                        className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 transition"
+                        className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-50 transition"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Back to Dashboard
@@ -164,15 +164,15 @@ export default function UploadPage() {
                                     exit={{ opacity: 0 }}
                                 >
                                     <div className="mb-6">
-                                        <h1 className="text-3xl font-bold text-slate-900 mb-2">
+                                        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50 mb-2">
                                             Upload Policy Document
                                         </h1>
-                                        <p className="text-slate-600">
+                                        <p className="text-slate-600 dark:text-slate-400">
                                             Upload your compliance policy document for AI-powered analysis
                                         </p>
                                     </div>
 
-                                    <Card className="shadow-lg">
+                                    <Card className="shadow-lg border-slate-200 dark:border-border">
                                         <CardHeader>
                                             <CardTitle>Document Upload</CardTitle>
                                             <CardDescription>
@@ -185,8 +185,8 @@ export default function UploadPage() {
                                                 <div
                                                     {...getRootProps()}
                                                     className={`border-2 border-dashed rounded-xl p-12 text-center transition-all cursor-pointer ${isDragActive
-                                                        ? "border-blue-500 bg-blue-50"
-                                                        : "border-slate-300 hover:border-slate-400 bg-white"
+                                                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                                                        : "border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 bg-white dark:bg-slate-950"
                                                         }`}
                                                 >
                                                     <input {...getInputProps()} />
@@ -194,12 +194,12 @@ export default function UploadPage() {
                                                         className={`w-16 h-16 mx-auto mb-4 transition-colors ${isDragActive ? "text-blue-500" : "text-slate-400"
                                                             }`}
                                                     />
-                                                    <h3 className="text-lg font-semibold text-slate-900 mb-2">
+                                                    <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
                                                         {isDragActive
                                                             ? "Drop your file here"
                                                             : "Drag and drop your file here"}
                                                     </h3>
-                                                    <p className="text-slate-600 mb-4">or</p>
+                                                    <p className="text-slate-600 dark:text-slate-400 mb-4">or</p>
                                                     <Button variant="outline" type="button">
                                                         Browse Files
                                                     </Button>
@@ -207,15 +207,15 @@ export default function UploadPage() {
                                             ) : (
                                                 <div className="space-y-4">
                                                     {/* File Card */}
-                                                    <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200">
-                                                        <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-                                                            <FileText className="w-6 h-6 text-blue-600" />
+                                                    <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800">
+                                                        <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center">
+                                                            <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                                                         </div>
                                                         <div className="flex-1 min-w-0">
-                                                            <p className="font-medium text-slate-900 truncate">
+                                                            <p className="font-medium text-slate-900 dark:text-slate-100 truncate">
                                                                 {selectedFile.name}
                                                             </p>
-                                                            <p className="text-sm text-slate-500">
+                                                            <p className="text-sm text-slate-500 dark:text-slate-400">
                                                                 {formatFileSize(selectedFile.size)}
                                                             </p>
                                                         </div>
@@ -231,27 +231,27 @@ export default function UploadPage() {
 
                                                     {/* Document Title Input */}
                                                     <div className="space-y-2">
-                                                        <label className="text-sm font-medium text-slate-900">
+                                                        <label className="text-sm font-medium text-slate-900 dark:text-slate-100">
                                                             Document Title
                                                         </label>
                                                         <Input
                                                             value={documentTitle}
                                                             onChange={(e) => setDocumentTitle(e.target.value)}
                                                             placeholder="Enter document title"
-                                                            className="w-full"
+                                                            className="w-full bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800"
                                                         />
                                                     </div>
 
                                                     {/* Document Category Select */}
                                                     <div className="space-y-2">
-                                                        <label className="text-sm font-medium text-slate-900">
+                                                        <label className="text-sm font-medium text-slate-900 dark:text-slate-100">
                                                             Document Category
                                                         </label>
                                                         <Select
                                                             value={documentCategory}
                                                             onValueChange={setDocumentCategory}
                                                         >
-                                                            <SelectTrigger className="w-full">
+                                                            <SelectTrigger className="w-full bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800">
                                                                 <SelectValue placeholder="Select a category" />
                                                             </SelectTrigger>
                                                             <SelectContent>
@@ -284,10 +284,10 @@ export default function UploadPage() {
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
                                 >
-                                    <Card className="shadow-lg">
+                                    <Card className="shadow-lg border-slate-200 dark:border-border">
                                         <CardHeader>
                                             <CardTitle className="flex items-center gap-2">
-                                                <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
+                                                <Loader2 className="w-5 h-5 animate-spin text-blue-600 dark:text-blue-400" />
                                                 Processing Document
                                             </CardTitle>
                                             <CardDescription>
@@ -298,7 +298,7 @@ export default function UploadPage() {
                                             {/* Progress Bar */}
                                             <div className="space-y-2">
                                                 <div className="flex items-center justify-between text-sm">
-                                                    <span className="text-slate-600">Overall Progress</span>
+                                                    <span className="text-slate-600 dark:text-slate-400">Overall Progress</span>
                                                     <span className="font-medium text-blue-600">
                                                         {Math.round(processingProgress)}%
                                                     </span>
@@ -330,10 +330,10 @@ export default function UploadPage() {
                                                         </div>
                                                         <p
                                                             className={`text-sm ${step.status === "complete"
-                                                                ? "text-slate-900 font-medium"
+                                                                ? "text-slate-900 dark:text-slate-100 font-medium"
                                                                 : step.status === "processing"
-                                                                    ? "text-blue-600 font-medium"
-                                                                    : "text-slate-500"
+                                                                    ? "text-blue-600 dark:text-blue-400 font-medium"
+                                                                    : "text-slate-500 dark:text-slate-400"
                                                                 }`}
                                                         >
                                                             {step.label}

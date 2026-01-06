@@ -1,6 +1,7 @@
-"use client";
+﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import {
     Moon,
     Sun,
@@ -24,30 +25,9 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useLanguage } from "@/context/language-context";
 
-type Theme = "light" | "dark" | "system";
 type DateFormat = "MM/DD/YYYY" | "DD/MM/YYYY" | "YYYY-MM-DD";
-
-const themeOptions = [
-    {
-        value: "light" as Theme,
-        label: "Light",
-        icon: Sun,
-        description: "Light mode",
-    },
-    {
-        value: "dark" as Theme,
-        label: "Dark",
-        icon: Moon,
-        description: "Dark mode",
-    },
-    {
-        value: "system" as Theme,
-        label: "System",
-        icon: Monitor,
-        description: "System default",
-    },
-];
 
 const notificationSettings = [
     {
@@ -78,10 +58,11 @@ const notificationSettings = [
 ];
 
 export default function PreferencesSettingsPage() {
-    const [selectedTheme, setSelectedTheme] = useState<Theme>("system");
-    const [language, setLanguage] = useState("en");
+    const { setTheme, theme } = useTheme();
+    const { language, setLanguage, t } = useLanguage();
     const [dateFormat, setDateFormat] = useState<DateFormat>("MM/DD/YYYY");
     const [isSaving, setIsSaving] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     // Initialize notification states
     const [notifications, setNotifications] = useState(
@@ -90,6 +71,24 @@ export default function PreferencesSettingsPage() {
             [setting.id]: setting.defaultValue,
         }), {} as Record<string, boolean>)
     );
+
+    // Handle hydration
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const themeOptions = [
+        {
+            value: "light",
+            label: t("theme.light"),
+            icon: Sun,
+        },
+        {
+            value: "dark",
+            label: t("theme.dark"),
+            icon: Moon,
+        },
+    ];
 
     const formatDatePreview = (format: DateFormat) => {
         const today = new Date();
@@ -121,11 +120,11 @@ export default function PreferencesSettingsPage() {
 
         setTimeout(() => {
             setIsSaving(false);
-            toast.success("Preferences Saved", {
-                description: "Your preferences have been updated successfully.",
+            toast.success(language === 'id' ? "Preferensi Disimpan" : "Preferences Saved", {
+                description: language === 'id' ? "Preferensi Anda telah berhasil diperbarui." : "Your preferences have been updated successfully.",
             });
             console.log({
-                theme: selectedTheme,
+                theme,
                 language,
                 dateFormat,
                 notifications,
@@ -133,45 +132,48 @@ export default function PreferencesSettingsPage() {
         }, 1500);
     };
 
+    if (!mounted) {
+        return null; // Prevent hydration mismatch
+    }
+
     return (
         <div className="space-y-6">
             {/* Appearance Card */}
             <Card className="shadow-sm hover:shadow-md transition-shadow">
                 <CardHeader>
-                    <CardTitle>Appearance</CardTitle>
+                    <CardTitle>{t("settings.appearance.title")}</CardTitle>
                     <CardDescription>
-                        Select your preferred interface theme.
+                        {t("settings.appearance.desc")}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                         {themeOptions.map((option) => {
                             const Icon = option.icon;
-                            const isSelected = selectedTheme === option.value;
+                            const isSelected = theme === option.value;
 
                             return (
                                 <button
                                     key={option.value}
-                                    onClick={() => setSelectedTheme(option.value)}
+                                    onClick={() => setTheme(option.value)}
                                     className={`relative flex flex-col items-center gap-3 p-4 rounded-lg border-2 transition-all ${isSelected
-                                            ? "border-blue-600 ring-2 ring-blue-100 bg-blue-50"
-                                            : "border-slate-200 hover:border-slate-300 bg-white"
+                                        ? "border-blue-600 ring-2 ring-blue-100 bg-blue-50 dark:bg-blue-900/20"
+                                        : "border-slate-200 hover:border-slate-300 bg-white dark:bg-slate-950 dark:border-slate-800"
                                         }`}
                                 >
-                                    <div className={`p-3 rounded-lg ${option.value === "light" ? "bg-white border border-slate-200" :
-                                            option.value === "dark" ? "bg-slate-900" :
-                                                "bg-gradient-to-r from-white to-slate-900"
+                                    <span className={`p-3 rounded-lg ${option.value === "light" ? "bg-white border border-slate-200 text-slate-900" :
+                                        option.value === "dark" ? "bg-slate-900 text-white border border-slate-800" :
+                                            "bg-gradient-to-r from-white to-slate-900 text-slate-600"
                                         }`}>
-                                        <Icon className={`h-6 w-6 ${option.value === "dark" ? "text-white" : "text-slate-900"
-                                            }`} />
-                                    </div>
-                                    <div className="text-center">
-                                        <p className="font-medium text-slate-900">{option.label}</p>
-                                    </div>
+                                        <Icon className="h-6 w-6" />
+                                    </span>
+                                    <span className="text-center">
+                                        <span className="font-medium text-slate-900 dark:text-slate-100">{option.label}</span>
+                                    </span>
                                     {isSelected && (
-                                        <div className="absolute top-2 right-2 bg-blue-600 rounded-full p-1">
+                                        <span className="absolute top-2 right-2 bg-blue-600 rounded-full p-1">
                                             <Check className="h-3 w-3 text-white" />
-                                        </div>
+                                        </span>
                                     )}
                                 </button>
                             );
@@ -183,24 +185,22 @@ export default function PreferencesSettingsPage() {
             {/* Localization Card */}
             <Card className="shadow-sm hover:shadow-md transition-shadow">
                 <CardHeader>
-                    <CardTitle>Regional Settings</CardTitle>
+                    <CardTitle>{t("settings.regional.title")}</CardTitle>
                     <CardDescription>
-                        Set your language and date formats for audit logs.
+                        {t("settings.regional.desc")}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     {/* Language */}
                     <div className="space-y-2">
                         <Label htmlFor="language">Language</Label>
-                        <Select value={language} onValueChange={setLanguage}>
+                        <Select value={language} onValueChange={(val: any) => setLanguage(val)}>
                             <SelectTrigger id="language" className="focus:ring-purple-500/50">
                                 <SelectValue placeholder="Select language" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="en">English</SelectItem>
-                                <SelectItem value="id">Bahasa Indonesia</SelectItem>
-                                <SelectItem value="fr">Français</SelectItem>
-                                <SelectItem value="de">Deutsch</SelectItem>
+                                <SelectItem value="en">{t("lang.en")}</SelectItem>
+                                <SelectItem value="id">{t("lang.id")}</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
@@ -221,7 +221,7 @@ export default function PreferencesSettingsPage() {
                             </SelectContent>
                         </Select>
                         <p className="text-sm text-slate-500">
-                            Preview: <span className="font-medium text-slate-700">{formatDatePreview(dateFormat)}</span>
+                            Preview: <span className="font-medium text-slate-700 dark:text-slate-300">{formatDatePreview(dateFormat)}</span>
                         </p>
                     </div>
                 </CardContent>
@@ -232,10 +232,10 @@ export default function PreferencesSettingsPage() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <Mail className="h-5 w-5 text-purple-600" />
-                        Email Notifications
+                        {t("settings.notifications.title")}
                     </CardTitle>
                     <CardDescription>
-                        Choose what updates you want to receive.
+                        {t("settings.notifications.desc")}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -247,17 +247,17 @@ export default function PreferencesSettingsPage() {
                                         <div className="flex items-center gap-2">
                                             <Label
                                                 htmlFor={setting.id}
-                                                className="font-semibold text-slate-900 cursor-pointer"
+                                                className="font-semibold text-slate-900 dark:text-slate-100 cursor-pointer"
                                             >
                                                 {setting.title}
                                             </Label>
                                             {setting.locked && (
-                                                <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded">
+                                                <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded dark:bg-slate-800 dark:text-slate-400">
                                                     Required
                                                 </span>
                                             )}
                                         </div>
-                                        <p className="text-sm text-slate-500">
+                                        <p className="text-sm text-slate-500 dark:text-slate-400">
                                             {setting.description}
                                         </p>
                                     </div>
@@ -286,10 +286,10 @@ export default function PreferencesSettingsPage() {
                     {isSaving ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Saving...
+                            {t("saving")}
                         </>
                     ) : (
-                        "Save Preferences"
+                        t("save")
                     )}
                 </Button>
             </div>

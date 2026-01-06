@@ -35,15 +35,15 @@ export default function SettingsLayout({
     const pathname = usePathname();
 
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-slate-50 dark:bg-background">
             {/* Main Content Wrapper */}
             <div className="min-h-screen flex flex-col">
                 {/* Settings Content */}
                 <main className="flex-1 p-8">
                     <div className="space-y-6 max-w-5xl mx-auto">
                         <div className="space-y-0.5">
-                            <h2 className="text-2xl font-bold tracking-tight text-slate-900">Settings</h2>
-                            <p className="text-slate-500">
+                            <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50">Settings</h2>
+                            <p className="text-slate-500 dark:text-slate-400">
                                 Manage your account settings and set e-mail preferences.
                             </p>
                         </div>
